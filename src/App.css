@@ -1,0 +1,147 @@
+.App {
+  text-align: center;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.App-link {
+  color: #61dafb;
+}
+.sideMenu {
+  min-width: 330px;
+  max-height: 800px;
+  border-radius: 4px;
+  background-color: #83B4FE;
+  margin: 10px;
+  padding: 20px;
+}
+.menuItems {
+  padding: 15px;
+  border: none;
+  background: transparent;
+  font-family: 'Comfortaa', bold;
+  color: #FFFFFF;
+  font-size: 13px;
+  align-items: flex-start;
+  overflow: auto;
+}
+.title {
+  padding: 5px;
+  font-family: 'Comfortaa', bold;
+  color: #FFFFFF;
+  font-size: 40px;
+}
+.filter {
+  width: auto;
+  height: auto;
+  background-color: #FDFAFA;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 4px;
+}
+.selectedCategory {
+  height: 52px;
+  padding: 15px;
+  border: 1px solid #ffffff;
+  margin-bottom: 35px;
+  text-align: left;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 6px 2px 0px rgba(156, 156, 161, 0.2);
+}
+.selectedCategory span {
+  color: #BEBEBE;
+  font-family: 'Comfortaa';
+  font-size: 16px;
+  margin-right: 40px;
+  display: inline;
+}
+.selectedCategory p {
+  color: #000000;
+  font-family: 'Comfortaa';
+  font-size: 16px;
+  display: inline;
+}
+.searchBar {
+  margin-bottom: 25px;
+}
+.searchBar .ant-form-item {
+  margin: 20px;
+  border-radius: 4px;
+}
+.searchBar .ant-select,
+.searchBar .ant-input-group {
+  box-shadow: 0px 3px 0px 0px rgba(156, 156, 161, 0.2);
+}
+.extendSearch {
+  float: left;
+  color: #83B4FE;
+  font-family: 'Comfortaa';
+  font-size: 16px;
+}
+.actionBtns {
+  float: right;
+}
+.resetBtn {
+  border-radius: 4px;
+  box-shadow: 0px 3px 0px 0px rgba(156, 156, 161, 0.2);
+  font-family: 'Comfortaa';
+  font-size: 12px;
+  margin-right: 20px;
+}
+.findBtn {
+  border-radius: 4px;
+  background-color: #83B4FE;
+  box-shadow: 0px 3px 0px 0px rgba(156, 156, 161, 0.2);
+  font-family: 'Comfortaa';
+  color: #FFFFFF;
+  font-size: 12px;
+  margin-right: 20px;
+}
+.results {
+  height: auto;
+  padding: 10px;
+  border-radius: 4px;
+}
+.resultTbl .ant-table-thead > tr > th {
+  background: #83B4FE !important;
+  color: #FFFFFF;
+  font-family: 'Comfortaa';
+  font-size: 13px;
+}
+.rowLight {
+  background-color: #FFFFFF;
+}
+.rowDark {
+  background-color: #EEEEFF;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
