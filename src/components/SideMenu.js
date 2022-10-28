@@ -18,12 +18,39 @@ export function SideMenu(props) {
     const [treeData, setTreeData] = useState(null);
     const [expandedKeys, setExpandedKeys] = useState();
     const [spinning, setSpinning] = useState(true);
+    const [path, setNodeArr] = useState([]);
 
     //response - ответ на запрос fetch серверу
     //setSpinning(false) - убираем колесо загрузки
     useEffect(() => {
-        getAllCategories().then(response =>{ response && setTreeData(response); setSpinning(false)})
-    }, [])
+        getAllCategories().then(response =>{ response && console.log(response); setTreeData(response); setSpinning(false)})
+    }, []);
+
+    const getParentNode = (key, tree, arr) => {
+        let parentNode = arr;
+        for (let i = 0; i < tree.length; i++) {
+          const node = tree[i];
+          if (node.children) {
+            if (node.children.some(item => item.key == key)) {
+              parentNode.push(node);
+              setNodeArr(parentNode);
+              getParentNode(node.key, treeData, parentNode)
+            } else {
+              getParentNode (key, node.children, parentNode);
+            }
+          }
+        }
+
+        return parentNode
+      }
+      
+
+
+      const onCategory = (key, item) => {
+        var parents = getParentNode(key, treeData, []);
+
+        props.onSelectCategory(item, parents)
+      }
 
 
 
@@ -36,7 +63,7 @@ export function SideMenu(props) {
                 {/* className - класс для создания стилей */}
                 <Tree
                     expandedKeys={expandedKeys}
-                    onSelect={(selectedKey, info)=>props.onSelectCategory(info.node)}
+                    onSelect={(selectedKey, info)=>onCategory(selectedKey, info.node)}
                     treeData={treeData}
                     className='menuItems'
                     height={1000}

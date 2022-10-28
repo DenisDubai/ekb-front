@@ -13,11 +13,14 @@ export function Main() {
     const [spinning, setSpinning] = useState(true);
     const [spinningRes, setSpinningRes] = useState(true);
     const [searchParams, setSearchParams] = useState();
+    const [breadcrumbs, setBreadcrumbs] = useState([]);
 
 
-    const onSelectCategory = item => {
+    const onSelectCategory = (item, parent) => {
+        console.log(parent)
         setSpinning(true);
         setSelectedCategory(item);
+        setBreadcrumbs(parent);
         getFilters({ categoryId: item?.key, page: 0 }).then(resp=> {setFilters(resp); setSpinning(false); setSpinningRes(false); console.log(resp.columns)} )
     }
 
@@ -28,7 +31,7 @@ export function Main() {
             page: page,
             categoryId: selectedCategory.key,
             popularity: data.popularity,
-            actual: data.actual === 'no' ? 0 : 1,
+            actual: data.actual === 'no' ? false : true,
             mopStatus: data.mopstatus,
             name: data.name,
         } : {
@@ -52,7 +55,7 @@ export function Main() {
         <Row gutter={[8, 16]}>
             <Col span={4} className='sideMenu'>
                 <div>
-                    <SideMenu onSelectCategory={onSelectCategory}/>
+                    <SideMenu onSelectCategory={(item, parent) => onSelectCategory(item, parent)}/>
                 </div>
             </Col>
             {selectedCategory && <Col span={18}>
@@ -60,7 +63,7 @@ export function Main() {
                     <Col span={24} className='filter'>
                         <div>
                             <Spin spinning={spinning}>
-                                <Filter selectedCategory={selectedCategory} filters={filters} onSearch={data=>onSearch(data, 1)} onReset={onReset}/>
+                                <Filter breadcrumbs={breadcrumbs} selectedCategory={selectedCategory} filters={filters} onSearch={data=>onSearch(data, 1)} onReset={onReset}/>
                             </Spin>
                         </div>
                     </Col>
@@ -69,7 +72,7 @@ export function Main() {
                     <Col span={24} className='results'>
                         <div>
                             <Spin spinning={spinningRes}>
-                                <Results mnfsList={filters?.mnfs} tusList={filters?.tus} dataSource={filters?.ekbs} onTblChng={page=> onSearch(searchParams, page)}/>
+                                <Results mnfsList={filters?.mnfs} tusList={filters?.tus} columns={filters?.columns} dataSource={filters?.ekbs} onTblChng={page=> onSearch(searchParams, page)}/>
                             </Spin>
                         </div>
                     </Col>

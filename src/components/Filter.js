@@ -1,6 +1,6 @@
 import '../App.less';
 // подключение компонентов antd
-import { Form, Row, Col, Input, Button, Select, Checkbox } from 'antd';
+import { Form, Row, Col, Input, Button, Select, Checkbox, Breadcrumb } from 'antd';
 import { useEffect, useState } from 'react';
 
 
@@ -32,19 +32,19 @@ export function Filter(props) {
     const [statuses, setStatus] = useState([
         {
             name: 'Включен в МОП',
-            key: 'incMOP'
+            key: 'ok'
         },
         {
             name: 'Не производится',
-            key: 'np'
+            key: 'notproduced'
         },
         {
             name: 'Производится в СНГ',
-            key: 'sng'
+            key: 'notdomestic'
         },
         {
             name: 'Исключён из МОП',
-            key: 'excMOP'
+            key: 'excommunicate'
         }
     ]);
 
@@ -286,9 +286,16 @@ export function Filter(props) {
         props?.onReset();
     }
 
+    const renderBreadcrumbs = () => {
+        let path = [...props.breadcrumbs].reverse().map(item=> item['title']).join('/');
+        return path;
+         
+    }
+
     //Отрисовка верхней навигации и кнопок фильтра
     return (
         <div>
+            <span>{renderBreadcrumbs()}</span>
             <div className='selectedCategory' >
                 <span>Отсортировано по категории:</span> <p>{props?.selectedCategory?.title}</p>
             </div>
