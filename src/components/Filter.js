@@ -141,7 +141,7 @@ export function Filter(props) {
                         </Form.Item>
                     </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col span={8}>
                         <Form.Item
                             label="Применяемость"
@@ -234,7 +234,7 @@ export function Filter(props) {
                             </Input.Group>
                         </Form.Item>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row>
                     <Col span={8}>
                         <Form.Item
