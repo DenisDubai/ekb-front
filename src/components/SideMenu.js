@@ -23,7 +23,7 @@ export function SideMenu(props) {
     //response - ответ на запрос fetch серверу
     //setSpinning(false) - убираем колесо загрузки
     useEffect(() => {
-        getAllCategories().then(response =>{ response && console.log(response); setTreeData(response); setSpinning(false)})
+        getAllCategories().then(response =>{ setTreeData(response); setSpinning(false)})
     }, []);
 
     const getParentNode = (key, tree, arr) => {
@@ -45,7 +45,6 @@ export function SideMenu(props) {
       }
       
 
-
       const onCategory = (key, item) => {
         var parents = getParentNode(key, treeData, []);
 
@@ -55,21 +54,21 @@ export function SideMenu(props) {
 
 
     return (
-        <>  
+          <>
             <Image src="http://asonika-k.ru/templates/asktemplate/images/logo.png" preview = {false}/>
-            {/* <span className='title'>АСОНИКА-К</span> */}
             {/* колесо загрузки */}
             <Spin spinning={spinning}>
-                {/* className - класс для создания стилей */}
                 <Tree
-                    expandedKeys={expandedKeys}
-                    onSelect={(selectedKey, info)=>onCategory(selectedKey, info.node)}
-                    treeData={treeData}
-                    className='menuItems'
-                    height={1000}
-                    onExpand={setExpandedKeys}
+                  expandedKeys={expandedKeys}
+                  onSelect={(selectedKey, info)=>onCategory(selectedKey, info.node)}
+                  treeData={treeData}
+                  className='menuItems'
+                  height={1000}
+                  onExpand={setExpandedKeys}
                 />
+                
             </Spin>
-        </>
+
+          </>
     )
 }

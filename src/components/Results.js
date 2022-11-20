@@ -1,18 +1,19 @@
 import '../App.less';
-import { Table } from 'antd';
+import { Table, Tooltip  } from 'antd';
 import { useState } from 'react';
-import { attachTypeApi } from 'antd/lib/message';
-
 
 //функция вывода результирующей таблицы
 export function Results(props) {
 
   const [page, setPage] = useState(1);
-  const  [pageSize, setPageSize]= useState(10);
 
   const dynamicColumns = props?.columns?.map(item=> {
+    let unit = item?.item['Units']?.find(un => un['Multiplier'] == item?.item['DefaultMultiplier']);
+
     let obj = {
-      title: item?.item['Name'],
+      title: unit ? `${item?.item['Short']}, ${unit['Name']}` : item?.item['Short'],
+      ellipsis: true,
+      width: 150,
       render: element => 
       { 
         let rootEl = element.parVals;
@@ -130,9 +131,16 @@ export function Results(props) {
   const staticColumns = [
     {
       title: 'Название',
-      dataIndex: 'name',
       key: 'name',
-      className: 'names'
+      className: 'names',
+      ellipsis: true,
+      width: 150,
+      render: element => {
+        const text = `${element.status['Actual'] ? 'Перспективный' : 'Неперспективный'}; ${element.status['MopStatus'] == 0 ? 'Включен в МОП' : 'Не включен в МОП'}`
+        return (<Tooltip placement="topLeft" title={text}>
+          <span disabled={element?.status['Actual']}>{element.name}</span>
+        </Tooltip>)
+        }
     },
     {
       title: 'ТУ',
@@ -140,30 +148,19 @@ export function Results(props) {
       className: 'tus',
       render: record => {
         return record.tuIdList.map(i => { return props?.tusList.find(tu => tu.item.Id === i).item.Name }).join(' ')
-      }
+      },
+      ellipsis: true,
+      width: 200,
     },
     {
       title: 'Производитель',
       key: 'mnfs',
       render: record => {
         return props?.mnfsList?.find(mn => mn.item.Id === record.mnfId).item.Name
-      }
+      },
+      ellipsis: true,
+      width: 350,
     },
-    // {
-    //   title: 'Применяемость',
-    //   key: 'popularity',
-    //   render: record => { return record.popularity.UsedInProducts === 0 ? 'Не применяется' : record.popularity.UsedInProducts }
-    // },
-    // {
-    //   title: 'Наличие, сроки и стоимость поставки',
-    //   key: 'availability',
-    //   render: record => {
-    //     const stock = record.availability.PiecesInStock === 0 ? 'Склад: нет в наличии;' : record.availability.PiecesInStock;
-    //     const time = record.availability.DeliveryTime == null ? '--' : record.availability.DeliveryTime;
-    //     const price = record.availability.DeliveryPrice == null ? '--' : record.availability.DeliveryPrice;
-    //     return `${stock} ${time} ${price}`
-    //   }
-    // }
   ];
 
   const columns = dynamicColumns ? staticColumns.concat(dynamicColumns) : staticColumns;
@@ -172,19 +169,25 @@ export function Results(props) {
   const handleTableChange = (newPagination, filters, sorter) => {
     props?.onTblChng(newPagination?.current);
     setPage(newPagination.current)
-    console.log('Page')
   };
 
   //отрисовка таблицы
   return (
     <div>
+      <div class='CountElements'>Найдено элементов: {props?.dataSource?.length}</div>
       <Table 
-      rowClassName={(record, index) => index % 2 === 0 ? 'rowLight' : 'rowDark'} 
+      rowClassName='rowDark'
+      expandable={{
+        expandIconAsCell: false,
+        expandIconColumnIndex: -1,
+        expandedRowRender: record => <p>{record.description}</p>,
+        defaultExpandAllRows: true
+      }}
       pagination={{
         current: page,
-        pageSize: pageSize,
       }} 
       className='resultTbl'
+      // scroll={{x: 'calc(600px + 50%)'}}
       dataSource={props?.dataSource} 
       onChange={handleTableChange}
       columns={columns} />

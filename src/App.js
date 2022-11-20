@@ -1,21 +1,19 @@
 import React from 'react';
 import { Main } from './components/Main';
-import Navbar from './components/Navbar';
 import './App.less';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Home from './pages';
-import About from './pages/about';
+// import { Router, Route } from "react-router";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 const App = () => (
   <div className="App">
-    <Router>
-      <Navbar/>
+    <Router history={history}>
       <Routes>
-        <Route path='/' exact element ={Home} />
-        <Route path='/about' element ={About} />
+      <Route path="/" element={<Main />}/>
       </Routes>
     </Router>
-    <Main />
   </div>
 );
 
